@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	
+	<div th:insert="fragments/commonui :: userhead"></div>
+	<div th:insert="fragments/commonui :: usermenu"></div>
+	<div class="container">
+
+		<div class="card">
+
+			<div class="card-header bg-primary text-white text-center">
+				<h3>USER PROFILE PAGE</h3>
+			</div>
+
+			<div class="card-body">
+			<table class="table table-hover">
+				<tr>
+					<td class="bg-info text-white">ID</td>
+					<td th:text="${user.id}"></td>
+				</tr>
+				<tr>
+					<td class="bg-info text-white">NAME</td>
+					<td th:text="${user.name}"></td>
+				</tr>
+				<tr>
+					<td class="bg-info text-white">EMAIL</td>
+					<td th:text="${user.email}"></td>
+				</tr>
+				<tr>
+					<td class="bg-info text-white">PASSWORD</td>
+					<td>
+						<a th:href="@{/user/modifyPwd}" class="btn btn-danger">Update Password</a>
+					</td>
+				</tr>
+				<tr>
+					<td class="bg-info text-white">ROLES</td>
+					<td th:text="${user.roles}"></td>
+				</tr>		
+			</table>
+			</div>
+			<!--card body end-->
+
+			
+		</div>
+		<!-- card end -->
+
+
+	</div>
+	<!-- container end -->
+</body>
+</html>

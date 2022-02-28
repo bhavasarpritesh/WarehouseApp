@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+</head>
+<body>
+<div th:insert="fragments/commonui :: userhead"></div>
+<div th:insert="fragments/commonui :: usermenu"></div>
+	<div class="container">
+
+		<div class="card">
+
+			<div class="card-header bg-primary text-white text-center">
+				<h3>PURCHASE PARTS PAGE (SCREEN#2)</h3>
+			</div>
+
+			<div class="card-body">
+		
+				<!-- Section#1 start-->
+				<table class="table table-bordered">
+					<tr>
+						<th>ORDER CODE</th>
+						<th th:text="${po.orderCode}" class="alert alert-secondary"></th>
+						<th>ORDER STATUS</th>
+						<th th:text="${po.status}" class="alert alert-secondary"></th>
+					</tr>
+				</table>
+				<!-- Section#1 end-->
+				
+				<!-- Section#2 start-->
+				<div th:if="${po.status=='OPEN' || po.status=='PICKING' }">
+				<hr/>
+				<form th:action="@{/po/add}" method="POST"  th:object="${purchaseDtl}">
+					<div class="row">
+                        <div class="col-2">
+                            <label>CHOOSE PART</label>
+                        </div>
+                      
+                        <div class="col-3">
+                            <select th:field="*{part.id}" class="form-control">
+                               <option value="">-SELECT-</option>
+                               <option th:each="ob:${parts}" th:value="${ob.key}" th:text="${ob.value}"></option>
+                            </select>
+                        </div>
+                    
+                        <div class="col-2">
+                            <label>QUANTITY</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" th:field="*{qty}" class="form-control" />
+                        </div>
+                        
+                        <!-- Hidden Input for Linking Dtl with Order -->
+                        <input type="hidden" name="order.id" th:value="${po.id}">
+                        <!-- Hidden Input ---- END -->
+                        
+                        <div class="col-2">  <!-- Section#3 -->
+                            <input type="submit" value="Add" class="btn btn-success">
+                        </div>
+                       
+                    </div>
+				</form>
+				</div>
+				<!-- Section#2 end-->
+		
+		
+				<hr/>
+				<!-- SECTION#4 DISPLAY ITEMS ADDED-->
+				<table class="table">
+					<tr class="bg-info text-white">
+						<td>SlNo</td>
+						<td>Item Code</td>
+						<td>Base Cost</td>
+						<td>Quantity</td>
+						<td th:if="${po.status=='PICKING'}">Operation</td>
+					</tr>
+					<tr th:each="ob,i:${dtls}">
+						<td th:text="${i.count}"></td>
+						<td th:text="${ob.part.partCode}"></td>
+						<td th:text="${ob.part.partCost}"></td>
+						<td th:text="${ob.qty}"></td>
+						<td th:if="${po.status=='PICKING'}">
+							<a th:href="@{/po/remove?dtlId={id2}&orderId={id1}(id2=${ob.id},id1=${po.id})}" class="btn btn-danger">REMOVE</a>
+						</td>
+					</tr>
+				</table>		
+				
+				<!-- SECTION#4 END-->
+				
+				
+				<div class="text-center" th:if="${po.status=='PICKING'}">
+					<a th:href="@{/po/confirmOrder?orderId={id}(id=${po.id})}" class="btn btn-success">PLACE ORDER</a>
+				</div>
+				
+				
+			</div>
+			<!--card body end-->
+		</div> <!-- card end -->
+	</div>
+	<!-- container end -->
+</body>
+</html>

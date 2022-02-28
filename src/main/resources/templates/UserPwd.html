@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Insert title here</title>
+</head>
+
+<body>
+<div th:insert="fragments/commonui :: userhead"></div>
+<div th:insert="fragments/commonui :: usermenu"></div>
+  <div class="container">
+   <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                <h3>PASSWORD UPDATE SCREEN!!</h3>
+            </div>
+
+
+            <div class="card-body">
+                <form th:action="@{/user/pwdUpdate}" method="POST" >
+
+                    
+                    <div class="row">
+                        <div class="col-2">
+                            <label>NEW PASSWORD</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="password" name="pwd1" id="pwd1" class="form-control" />
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-2">
+                            <label>RE ENTER PASSWORD</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="password" name="pwd2" id="pwd2" class="form-control" />
+                        </div>
+                    </div>
+                  
+                    <input type="submit" value="Update Password" class="btn btn-success" />
+                </form>
+            </div>
+            <!--card body end-->
+
+        </div>
+        <!--card end-->
+
+    </div>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+});
+</script>    
+</body>
+
+</html>

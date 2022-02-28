@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	
+	<div th:insert="fragments/commonui :: userhead"></div>
+	<div th:insert="fragments/commonui :: usermenu"></div>
+	<div class="container">
+
+		<div class="card">
+
+			<div class="card-header bg-primary text-white text-center">
+				<h3>UOM DATA PAGE</h3>
+			</div>
+
+			<div class="card-body">
+				<a th:href="@{/uom/excel}" class="btn btn-warning"> <i
+					class="fa fa-file-excel-o fa-4x" aria-hidden="true"></i></a> | <a
+					th:href="@{/uom/pdf}" class="btn btn-info"><i
+					class="fa fa-file-pdf-o fa-4x" aria-hidden="true"></i></a>
+				<hr/>
+				
+				<form action="all" method="GET">
+					<div class="row">
+						<div class="col-4">
+							<input type="text" name="uomModel" class="form-control" placeholder="Enter Uom Model"/>
+						</div>
+						<div class="col-4">
+							<input type="submit" value="Search" class="btn btn-info"/>
+						</div>
+					</div>
+				</form>
+				
+				<hr/>
+					
+				<table class="table table-hover">
+					<tr class="bg-success text-white">
+						<th>ID</th>
+						<th>TYPE</th>
+						<th>MODLE</th>
+						<th>DESCRIPTION</th>
+						<th>OPRATIONS</th>
+					</tr>
+					<tr th:each="ob:${list}">
+						<td th:text="${ob.id}"></td>
+						<td th:text="${ob.uomType}"></td>
+						<td th:text="${ob.uomModel}"></td>
+						<td th:text="${ob.description}"></td>
+						<td><a class="btn btn-outline-danger"
+							th:href="@{/uom/delete?id={data}(data=${ob.id})}"> <i
+								class="fa fa-trash-o fa-3x" aria-hidden="true"></i>
+
+
+						</a> | <a class="btn btn-outline-info"
+							th:href="@{/uom/edit?id={data}(data=${ob.id})}"> <!-- <img th:src="@{/images/edit.png}" width="40" height="40"/> -->
+								<i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+						</a></td>
+					</tr>
+				</table>
+			</div>
+			<!--card body end-->
+
+			<div class="card-footer bg-warning text-white text-center"
+				th:if="${message != null}">
+				<span th:text="${message}"></span>
+			</div>
+			<!-- card footer end -->
+
+		</div>
+		<!-- card end -->
+
+		<!-- PAGINATION  START-->
+		<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-center">
+
+				<li th:if="${page.hasPrevious()}" class="page-item"><a
+					class="page-link" th:href="@{/uom/all(page=${page.number-1})}">
+						Previous </a></li>
+
+				<th:block th:each="i,ac:${#numbers.sequence(0,page.totalPages-1)}">
+					<li th:class="${ac.index ==page.number ? 'page-item active' : 'page-item'}">
+					
+					<a class="page-link"
+						th:href="@{/uom/all(page=${i})}">[[${i+1}]]</a>
+						
+						</li>
+				</th:block>
+
+				<li th:if="${page.hasNext()}" class="page-item"><a
+					class="page-link" th:href="@{/uom/all(page=${page.number+1})}">
+						Next </a></li>
+			</ul>
+		</nav>
+
+		<!-- PAGINATION  END-->
+
+	</div>
+	<!-- container end -->
+</body>
+</html>

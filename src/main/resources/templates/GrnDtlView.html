@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+</head>
+<body>
+<div th:insert="fragments/commonui :: userhead"></div>
+<div th:insert="fragments/commonui :: usermenu"></div>
+	<div class="container">
+
+		<div class="card">
+
+			<div class="card-header bg-primary text-white text-center">
+				<h3>GRN DETAILS PAGE</h3>
+			</div>
+
+			<div class="card-body">
+			
+				<table class="table table-hover">
+					<tr>
+						<th>GRN CODE</th>
+						<th th:text="${grn.code}" class="bg-info text-white"></th>
+					
+						<th>ORDER(PO) CODE</th>
+						<th th:text="${grn.po.orderCode}" class="bg-info text-white"></th>
+					</tr>
+				</table>					
+				
+				<hr/>
+			
+				<table class="table table-hover">
+					<tr class="bg-success text-white">
+						<th>ITEM CODE</th>
+						<th>BASE COST</th>
+						<th>QUANTITY</th>
+						<th>ITEM VALUE</th>
+						<th>OPRATIONS</th>
+					</tr>
+					<tr th:each="ob:${list}">
+						<td th:text="${ob.itemCode}"></td>
+						<td th:text="${ob.baseCost}"></td>
+						<td th:text="${ob.qty}"></td>
+						<td th:text="${ob.itemVal}"></td>
+						<td>
+						<div th:if="${ob.status == null}">
+							<a class="btn btn-info" th:href="@{/grn/updateStatus?grnId={grnId}&grnDtlId={dtlId}&status=ACCEPTED(dtlId=${ob.id},grnId=${grn.id})}">ACCEPT</a> 
+							| <a class="btn btn-danger" th:href="@{/grn/updateStatus?grnId={grnId}&grnDtlId={dtlId}&status=REJECTED(dtlId=${ob.id},grnId=${grn.id})}">REJECT</a>
+						</div>
+						<div th:if="${ob.status=='ACCEPTED'}">
+							<span th:text="${ob.status}" class="text-primary"></span>
+						</div>
+						<div th:if="${ob.status=='REJECTED'}">
+							<span th:text="${ob.status}" class="text-danger"></span>
+						</div>
+						</tr>
+				</table>
+			</div>
+			<!--card body end-->
+
+		</div> <!-- card end -->
+
+	</div>
+	<!-- container end -->
+</body>
+</html>
